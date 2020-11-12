@@ -76,7 +76,14 @@ function returnCounter(number = 0) {
  Пример:
    returnArgumentsArray(1, 2, 3) вернет [1, 2, 3]
  */
-function returnArgumentsArray() {}
+
+// function returnArgumentsArray() {
+//   return Object.values(arguments);
+// }
+
+function returnArgumentsArray(...arg) {
+  return arg;
+}
 
 /*
  Задание 6 *:
