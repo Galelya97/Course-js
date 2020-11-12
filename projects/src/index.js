@@ -42,7 +42,9 @@ function sumWithDefaults(a, b = 100) {
  Пример:
    returnFnResult(() => 'привет') вернет 'привет'
  */
-function returnFnResult(fn) {}
+function returnFnResult(fn) {
+  return fn();
+}
 
 /*
  Задание 4:
@@ -57,7 +59,13 @@ function returnFnResult(fn) {}
    console.log(f()); // выведет 12
    console.log(f()); // выведет 13
  */
-function returnCounter(number) {}
+function returnCounter(number = 0) {
+  let count = number;
+
+  return function () {
+    return (count += 1);
+  };
+}
 
 /*
  Задание 5 *:
