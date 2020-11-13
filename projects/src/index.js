@@ -60,10 +60,8 @@ function returnFnResult(fn) {
    console.log(f()); // выведет 13
  */
 function returnCounter(number = 0) {
-  let count = number;
-
   return function () {
-    return (count += 1);
+    return (number += 1);
   };
 }
 
