@@ -18,17 +18,24 @@ function init() {
     }
   );
 
-  let clusterer = new ymaps.Clusterer({
+  const clusterer = new ymaps.Clusterer({
     preset: 'islands#invertedVioletClusterIcons',
     hasBalloon: false,
     groupByCoordinates: true,
     clusterDisableClickZoom: true,
     clusterHideIconOnBalloonOpen: false,
+
     geoObjectHideIconOnBalloonOpen: false,
   });
 
-  const localReviews = JSON.parse(localStorage.getItem('reviews'));
-  const myGeoObjects = localReviews && localReviews.length ? localReviews.map(getPlacemark) : [];
+  const localReviews = JSON.parse(localStorage.getItem('reviews') || '[]');
+  const proxyReviews = new Proxy(localReviews, {
+    set: (target, prop, val) => {
+      target[prop] = val;
+      localStorage.setItem('reviews', JSON.stringify(target));
+    },
+  });
+  const myGeoObjects = localReviews.map(getPlacemark);
 
   clusterer.add(myGeoObjects);
   myMap.geoObjects.add(clusterer);
@@ -78,12 +85,7 @@ function init() {
           coords: balloon.getPosition(),
         };
 
-        const localReviews = JSON.parse(localStorage.getItem('reviews'));
-        if (localReviews) {
-          localStorage.setItem('reviews', JSON.stringify([...localReviews, review]));
-        } else {
-          localStorage.setItem('reviews', JSON.stringify([review]));
-        }
+        proxyReviews.push(review);
 
         clusterer.add(getPlacemark(review));
         balloon.close();
@@ -105,23 +107,23 @@ function init() {
     if (balloon.isOpen()) {
       balloon.close();
     } else {
-      let reviews = [];
+      const reviews = [];
       clusterer.getGeoObjects().forEach(function (item) {
         if (JSON.stringify(item.geometry.getCoordinates()) === JSON.stringify(coords)) {
-          reviews.push(item.properties.get("review"));
+          reviews.push(item.properties.get('review'));
         }
       });
 
-      balloon.open(coords, { reviews });
+      balloon.open(coords, { reviews: reviews });
     }
   }
 
   // Создание метки.
   function getPlacemark(review) {
     return new ymaps.Placemark(
-        review.coords,
-        { review },
-        { preset: 'islands#violetDotIconWithCaption' }
+      review.coords,
+      { review },
+      { preset: 'islands#violetDotIconWithCaption' }
     );
   }
 }
