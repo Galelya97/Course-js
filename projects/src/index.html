@@ -1,0 +1,34 @@
+<div class="app" id="app">
+  <div class="hidden" id="login">
+    <div class="login__field">
+      <input type="text" class="login__input" data-set="login__input" placeholder="Логин">
+    </div>
+    <div class="login__field">
+      <button class="login__submit" data-set="login__submit">Войти</button>
+    </div>
+    <div class="login__error" data-set="login__error"></div>
+  </div>
+  <div class="hidden" id="main">
+    <div class="left__side">
+      <div class="user__info">
+        <div class="user__photo" data-set="user__photo"></div>
+        <div class="user__name" data-set="user__name"></div>
+      </div>
+
+      <div class="user__container">
+        <div class="user__header">Все пользователи:</div>
+        <div class="user__list" data-set="user__list"></div>
+      </div>
+    </div>
+    <div class="right__side">
+      <div class="messages__container" data-set="messages__list"></div>
+      <div class="input__container" data-set="message__sender">
+        <input type="text" class="message__input" data-set="message__input" placeholder="Сообщение">
+        <button class="send-button" data-set="send-button">Отправить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
